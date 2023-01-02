@@ -8,7 +8,7 @@ import re
 import pdfminer
 from pdfminer.high_level import extract_pages
 # Replace YOUR_API_KEY with your actual API key
-openai.api_key = "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"#"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"
+openai.api_key = st.secrets["api_key"]
 from st_pages import Page, show_pages, add_page_title
 from streamlit.components.v1 import html
 
