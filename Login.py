@@ -1,0 +1,70 @@
+import streamlit as st
+from streamlit.components.v1 import html
+import re
+# st.set_page_config(
+# 	page_title = "skipText Login Page")
+
+from st_pages import Page, show_pages, add_page_title
+
+# Optional -- adds the title and icon to the current page
+add_page_title("LOGIN PAGE")
+
+# Specify what pages should be shown in the sidebar, and what their titles
+# and icons should be
+show_pages(
+    [
+        Page("Login.py", "Login Page", "🏠"),
+        Page("pages/one.py", "Task Selection Page", ":books:"),
+		Page("pages/two.py", "Play Ground", ":bar_chart:"),
+    ]
+)
+
+st.sidebar.image: st.sidebar.image("SkipText Offiical Logo.png", use_column_width=True)
+def is_valid_email(email):
+    # Define a regular expression for checking the email format
+    regex = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
+    # Check if the email matches the regular expression
+    if re.match(regex, email):
+        st.session_state["email_id"] = email_id
+        return True
+    else:
+        return False
+
+def nav_page(page_name, timeout_secs=3):
+    nav_script = """
+        <script type="text/javascript">
+            function attempt_nav_page(page_name, start_time, timeout_secs) {
+                var links = window.parent.document.getElementsByTagName("a");
+                for (var i = 0; i < links.length; i++) {
+                    if (links[i].href.toLowerCase().endsWith("/" + page_name.toLowerCase())) {
+                        links[i].click();
+                        return;
+                    }
+                }
+                var elasped = new Date() - start_time;
+                if (elasped < timeout_secs * 1000) {
+                    setTimeout(attempt_nav_page, 100, page_name, start_time, timeout_secs);
+                } else {
+                    alert("Unable to navigate to page '" + page_name + "' after " + timeout_secs + " second(s)." + "links: "+ links[0]);
+                }
+            }
+            window.addEventListener("load", function() {
+                attempt_nav_page("%s", new Date(), %d);
+            });
+        </script>
+    """ % (page_name, timeout_secs)
+    html(nav_script)
+
+if "email_id" not in st.session_state:
+	email_id = str(st.text_input('Enter your email_id to continue..'))
+	#st.session_state["email_id"] = email_id
+	if is_valid_email(email_id):
+		nav_page("Task%20Selection%20Page")
+	elif len(email_id):
+		st.write("Please enter a valid email_id")
+else:
+	st.write("You are in!!! Click below button to use the tool")
+	with st.form("form1"):
+		use_tool = st.form_submit_button(label = 'Use Tool')
+	if use_tool:
+	    nav_page("Task%20Selection%20Page")
