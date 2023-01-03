@@ -48,7 +48,7 @@ def summarize_text(text):
     # Set up the GPT-3 request
     prompt = (
         f"Summarize the following text:\n{text}\n"
-        "The summary should be no more than 30 sentences long."
+        "The summary should be no more than Thirty sentences long."
     )
     model = "text-davinci-003"  # You can choose a different GPT-3 model if you prefer
     temperature = 0.5  # Adjust the temperature to control the creativity of the summary
