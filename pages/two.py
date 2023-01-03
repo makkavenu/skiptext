@@ -48,7 +48,7 @@ def summarize_text(text):
     # Set up the GPT-3 request
     prompt = (
         f"Summarize the following text:\n{text}\n"
-        "The summary should be no more than Thirty sentences long."
+        "The summary should be no more than Thirty sentences."#should be no more than Thirty sentences long
     )
     model = "text-davinci-003"  # You can choose a different GPT-3 model if you prefer
     temperature = 0.5  # Adjust the temperature to control the creativity of the summary
@@ -141,71 +141,77 @@ def input_data(data_file):
     # 	data_df = pd.read_csv(data_file)
     # return data_df
 
-if st.session_state["input_type"] == "Enter Text":
-    txt = st.text_area('Enter Text here',value ='''''', height = 300)
-    with st.form("form3"):
-    	submit = st.form_submit_button(label = 'Submit')
-    if submit:
-        if st.session_state["task_type"] == "Summarize Text":
-            summary = recurisive_summarization(txt)
-            st.write("SUMMARY:")
-            st.write(summary)
-        elif st.session_state["task_type"] == "Outline Text":
-            outline = recurisive_outline(txt)
-            st.write("OUTLINE:")
-            st.write(outline)
+if "input_type" in st.session_state:
+    if st.session_state["input_type"] == "Enter Text":
+        txt = st.text_area('Enter Text here',value ='''''', height = 300)
+        with st.form("form3"):
+        	submit = st.form_submit_button(label = 'Submit')
+        if submit:
+            if st.session_state["task_type"] == "Summarize Text":
+                summary = recurisive_summarization(txt)
+                st.write("SUMMARY:")
+                st.write(summary)
+            elif st.session_state["task_type"] == "Outline Text":
+                outline = recurisive_outline(txt)
+                st.write("OUTLINE:")
+                st.write(outline)
 
-elif st.session_state["input_type"]  == "Upload File":
-    data_file = st.file_uploader("Choose a file .txt file from your system ...")
-    if data_file is not None:
-        name = data_file.name
-        extension = name.split(".")[1]
-    if data_file is not None and extension == "txt":
-        stringio = StringIO(data_file.getvalue().decode("utf-8"))
-        txt = stringio.read()
-        #st.write(string_data)
-        if st.session_state["task_type"] == "Summarize Text":
-            summary = recurisive_summarization(txt)
-            st.write("SUMMARY:")
-            st.write(summary)
-        elif st.session_state["task_type"] == "Outline Text":
-            outline = recurisive_outline(txt)
-            st.write("OUTLINE:")
-            st.write(outline)
+    elif st.session_state["input_type"]  == "Upload File":
+        data_file = st.file_uploader("Choose a file .txt file from your system ...")
+        if data_file is not None:
+            name = data_file.name
+            extension = name.split(".")[1]
+        if data_file is not None and extension == "txt":
+            stringio = StringIO(data_file.getvalue().decode("utf-8"))
+            txt = stringio.read()
+            #st.write(string_data)
+            if st.session_state["task_type"] == "Summarize Text":
+                summary = recurisive_summarization(txt)
+                st.write("SUMMARY:")
+                st.write(summary)
+            elif st.session_state["task_type"] == "Outline Text":
+                outline = recurisive_outline(txt)
+                st.write("OUTLINE:")
+                st.write(outline)
 
-    if data_file is not None and extension == "pdf":
-        pages_lst = []
-        for page_layout in extract_pages(data_file):
-            page = ""
-            for element in page_layout:
-                page = page + str(element)
-            pages_lst.append(page)
-        txt = "\n".join(pages_lst)
+        if data_file is not None and extension == "pdf":
+            pages_lst = []
+            for page_layout in extract_pages(data_file):
+                page = ""
+                for element in page_layout:
+                    page = page + str(element)
+                pages_lst.append(page)
+            txt = "\n".join(pages_lst)
 
-        if st.session_state["task_type"] == "Summarize Text":
-            summary = recurisive_summarization(txt)
-            st.write("SUMMARY:")
-            st.write(summary)
-        elif st.session_state["task_type"] == "Outline Text":
-            outline = recurisive_outline(txt)
-            st.write("OUTLINE:")
-            st.write(outline)
+            if st.session_state["task_type"] == "Summarize Text":
+                summary = recurisive_summarization(txt)
+                st.write("SUMMARY:")
+                st.write(summary)
+            elif st.session_state["task_type"] == "Outline Text":
+                outline = recurisive_outline(txt)
+                st.write("OUTLINE:")
+                st.write(outline)
 
-elif st.session_state["input_type"] == "Enter website URL":
-    url = st.text_input("Enter URL here... ")
-    with st.form("form4"):
-    	submit = st.form_submit_button(label = 'Submit')
-    if submit:
-        if st.session_state["task_type"] == "Summarize Text":
-            summary = summarize_website(url)
-            st.write("SUMMARY:")
-            st.write(summary)
-        elif st.session_state["task_type"] == "Outline Text":
-            outline = outline_website(url)
-            st.write("OUTLINE:")
-            st.write(outline)
+    elif st.session_state["input_type"] == "Enter website URL":
+        url = st.text_input("Enter URL here... ")
+        with st.form("form4"):
+        	submit = st.form_submit_button(label = 'Submit')
+        if submit:
+            if st.session_state["task_type"] == "Summarize Text":
+                summary = summarize_website(url)
+                st.write("SUMMARY:")
+                st.write(summary)
+            elif st.session_state["task_type"] == "Outline Text":
+                outline = outline_website(url)
+                st.write("OUTLINE:")
+                st.write(outline)
 
-with st.form("form"):
-	prev_page = st.form_submit_button(label = 'Go Back')
-if prev_page:
-    nav_page("Task%20Selection%20Page")
+    with st.form("form"):
+    	prev_page = st.form_submit_button(label = 'Go Back')
+    if prev_page:
+        nav_page("Task%20Selection%20Page")
+else:
+    with st.form("form5"):
+    	previous_page = st.form_submit_button(label = 'Go Back')
+    if previous_page:
+        nav_page("Task%20Selection%20Page")
