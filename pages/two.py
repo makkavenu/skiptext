@@ -61,10 +61,10 @@ def summarize_text(text):
 
 #@st.cache(suppress_st_warning=True)
 def recurisive_summarization(text_1lakh):
-    if len(text_1lakh)< 15000:
+    if len(text_1lakh)< 13000:
         return summarize_text(text_1lakh)
     else:
-        return recurisive_summarization(summarize_text(text_1lakh[0:15000]) + "\n "+ text_1lakh[15000:])
+        return recurisive_summarization(summarize_text(text_1lakh[0:13000]) + "\n "+ text_1lakh[13000:])
 
 
 @st.cache(suppress_st_warning=True)
@@ -87,10 +87,10 @@ def outline_text(text):
 
 #@st.cache(suppress_st_warning=True)
 def recurisive_outline(text_1lakh):
-    if len(text_1lakh)< 15000:
+    if len(text_1lakh)< 13000:
         return outline_text(text_1lakh)
     else:
-        return recurisive_outline(outline_text(text_1lakh[0:15000]) + "\n "+ text_1lakh[15000:])
+        return recurisive_outline(outline_text(text_1lakh[0:13000]) + "\n "+ text_1lakh[13000:])
 
 
 @st.cache(suppress_st_warning=True)
@@ -104,7 +104,7 @@ def summarize_website(url):
     soup = BeautifulSoup(html, "html.parser")
     text = soup.text
     text = re.sub(r'(\n)+', '\n', text)
-    #text = text[0:15000]
+    #text = text[0:13000]
     summary = recurisive_summarization(text)
     return summary
 
@@ -119,7 +119,7 @@ def outline_website(url):
     soup = BeautifulSoup(html, "html.parser")
     #main_content = soup.find("div", {"id": "main-content"})
     text = soup.text
-    #text = text[0:15000]
+    #text = text[0:13000]
 
     # Use the summarize_text function from the previous example to summarize the text
     outline = recurisive_outline(text)
