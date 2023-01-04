@@ -5,3 +5,4 @@ pdfminer.six==20221105
 requests==2.28.1
 st_pages==0.3.0
 streamlit==1.16.0
+gspread==5.7.2

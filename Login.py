@@ -1,6 +1,9 @@
 import streamlit as st
 from streamlit.components.v1 import html
 import re
+import gspread
+import time
+from datetime import datetime
 # st.set_page_config(
 # 	page_title = "skipText Login Page")
 
@@ -55,10 +58,22 @@ def nav_page(page_name, timeout_secs=3):
     """ % (page_name, timeout_secs)
     html(nav_script)
 
+def append_row_to_gsheet(email_id):
+    SHEET_ID = '16VaBizqUWdPa_JNCizMnbNHx-UPFrpehA9vqY1EhwpI'
+    SHEET_NAME = 'Sheet1'
+    gc = gspread.service_account('gsheet_credentials.json')
+    spreadsheet = gc.open_by_key(SHEET_ID)
+    worksheet = spreadsheet.worksheet(SHEET_NAME)
+    now = datetime.now()
+    print("now =", now)
+    dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+    worksheet.append_row([email_id, dt_string])
+    return True
+
 if "email_id" not in st.session_state:
 	email_id = str(st.text_input('Enter your email_id to continue..'))
 	#st.session_state["email_id"] = email_id
-	if is_valid_email(email_id):
+	if is_valid_email(email_id) and append_row_to_gsheet(email_id):
 		nav_page("Task%20Selection%20Page")
 	elif len(email_id):
 		st.write("Please enter a valid email_id")

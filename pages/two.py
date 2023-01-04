@@ -48,11 +48,11 @@ def summarize_text(text):
     # Set up the GPT-3 request
     prompt = (
         f"Summarize the following text:\n{text}\n"
-        "The summary should be no more than Thirty sentences."#should be no more than Thirty sentences long
+        "The summary should be no more than 5 paragraphs"#should be no more than Thirty sentences long
     )
     model = "text-davinci-003"  # You can choose a different GPT-3 model if you prefer
     temperature = 0.5  # Adjust the temperature to control the creativity of the summary
-    max_tokens = 128  # Limit the length of the summary to 128 tokens
+    max_tokens = 700  # Limit the length of the summary to 128 tokens
 
     # Send the request to GPT-3 and get the summary
     response = openai.Completion.create(engine=model, prompt=prompt, max_tokens=max_tokens, temperature=temperature)
@@ -78,7 +78,7 @@ def outline_text(text):
     )
     model = "text-davinci-003" # You can choose a different GPT-3 model if you prefer
     temperature = 0.5  # Adjust the temperature to control the creativity of the outline
-    max_tokens = 256  # Limit the length of the outline to 256 tokens
+    max_tokens = 700  # Limit the length of the outline to 256 tokens
 
     # Send the request to GPT-3 and get the outline
     response = openai.Completion.create(engine=model, prompt=prompt, max_tokens=max_tokens, temperature=temperature)
