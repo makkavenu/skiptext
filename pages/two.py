@@ -74,7 +74,7 @@ def outline_text(text):
     #st.write("Outlining the text ...")
     prompt = (
         f"Outline the following text:\n{text}\n"
-        "The outline should contain no more than Ten main points, with each point described in one sentence."
+        "The outline should contain no more than 20 main points, with each point described in one sentence."
     )
     model = "text-davinci-003" # You can choose a different GPT-3 model if you prefer
     temperature = 0.5  # Adjust the temperature to control the creativity of the outline
